@@ -513,13 +513,15 @@ class Payload extends  AbstractHelper
         $orderItem->setName($item->getName())
                   ->setAmount($item->getPriceInclTax() ? (float)$item->getPriceInclTax() : 0.00)
                   ->setReference((string)$item->getId())
-                  ->setDescription($description)
                   ->setQuantity(round($qty))
                   ->setType("sku")
                   ->setImageUri($this->_getProductImage($item))
                   ->setItemUri($item->getProduct()->getProductUrl())
                   ->setProductCode($item->getSku());  
         $itemsArray[] = $orderItem;
+        if(!empty($description)){
+            $orderItem->setDescription($description);
+        }
     }
 
     $this->_logger->debug($this->_helper->__("Shipping Required:- %s", !$this->_isVirtual ? "Yes" : "No"));
